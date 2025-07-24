@@ -48,6 +48,8 @@ return {
       [[         [ ]   'Hl  g  PH%Dy ,_@k_XVl  UPW@@@@B[@@@g_J      ]],
       [[ v_      1 1'  YPq _F J   >*`"`   ]4)  T    W@@@gJT"`       ]],
       [[   %v.g__1 1 '  )**"` 1 ,g<"?k,  V' &(_H><    &,"`          ]],
+      [[                                                            ]],
+      [[                       N E O V I M                          ]],
     }
     -- local img_header = require 'alpha-img'
     -- dashboard.section.header.type = 'text'
