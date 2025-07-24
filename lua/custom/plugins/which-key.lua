@@ -43,16 +43,18 @@ return { -- Useful plugin to show you pending keybinds.
     },
 
     -- Document existing key chains
+    -- Key mapping
     spec = {
       { '<leader>s', group = '[S]earch' },
       { '<leader>t', group = '[T]oggle' },
       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-      { '<leader>r', ':lua Compile_current_file()<CR>', desc = 'run code by file', mode = 'n', icon = '' },
-      { '<leader>n', ':Neotree reveal toggle<CR>', desc = '[N]eotree', mode = 'n', icon = '' },
+      { '<leader>r', ':lua Compile_current_file()<CR>', desc = '[R]un code by file', mode = 'n', icon = '' },
       { '<leader>w', ':HopWord<CR>', desc = 'Jump by [W]ord', mode = 'n', icon = '󰈭' },
       { '<leader>c', ':HopChar1<CR>', desc = 'Jump by [C]har', mode = 'n', icon = '󰀬' },
-      { '<C-n>', ':Neotree reveal toggle<CR>', desc = '[N]eotree', mode = { 'n', 'i' }, icon = '' },
-      { '<C-\\>', ':ToggleTerm<CR>', desc = 'Terminal', mode = { 'n', 'i', 't' }, icon = '' },
+      { '<leader>n', '<cmd>Neotree reveal toggle dir=./<CR>', desc = '[N]eotree', mode = 'n', icon = '' },
+      { '<leader>e', '<cmd>ToggleTerm<CR>', desc = 'Terminal [e]mulator', mode = 'n', icon = '' },
+      { '<C-n>', '<cmd>Neotree reveal toggle dir=./<CR>', desc = '[N]eotree', mode = { 'n', 'i' }, icon = '' },
+      { '<C-\\>', '<cmd>ToggleTerm<CR>', desc = 'Terminal', mode = { 'n', 'i', 't' }, icon = '' },
     },
   },
 }

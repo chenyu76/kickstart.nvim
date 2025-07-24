@@ -136,6 +136,16 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
+  performance = {
+    rtp = {
+      -- This option is what fixed the problem for me.
+      -- Apparently, Lazy.nvim removes NeovimQT's runtime path from rtp.
+      -- Then what happens is that NeovimQT can't find it's nvim_gui_shim.vim.
+      -- And then GUI... commands don't work.
+      paths = { '/usr/bin/../share/nvim-qt/runtime' },
+      -- add any custom paths here that you want to includes in the rtp
+    },
+  },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
