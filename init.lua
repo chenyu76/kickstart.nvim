@@ -6,15 +6,15 @@ require 'quick-run'
 if vim.g.neovide then
   -- Put anything you want to happen only in Neovide here
   -- vim.o.guifont = "Triplicate A,京華老宋体,Maple Mono,JetBrainsMono Nerd Font,苹方:h12"
-  vim.o.guifont = 'Maple Mono,JetBrainsMono Nerd Font,苹方:h12'
-  vim.g.neovide_scroll_animation_far_lines = 1
+  vim.o.guifont = 'Maple Mono,JetBrainsMono Nerd Font,苹方:h11'
+  -- vim.g.neovide_scroll_animation_far_lines = 1
   vim.g.neovide_hide_mouse_when_typing = true
   -- vim.g.neovide_refresh_rate = 30
   vim.g.neovide_cursor_vfx_mode = 'railgun'
   -- vim.g.neovide_cursor_vfx_mode = "ripple"
-  vim.g.neovide_cursor_vfx_particle_density = 1.0
-  vim.g.neovide_floating_shadow = true
-  vim.g.neovide_floating_z_height = 0
+  -- vim.g.neovide_cursor_vfx_particle_density = 1.0
+  -- vim.g.neovide_floating_shadow = true
+  -- vim.g.neovide_floating_z_height = 0
 end
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -142,6 +142,7 @@ require('lazy').setup({
       -- Apparently, Lazy.nvim removes NeovimQT's runtime path from rtp.
       -- Then what happens is that NeovimQT can't find it's nvim_gui_shim.vim.
       -- And then GUI... commands don't work.
+      -- 启用 neovim-qt 的runtime
       paths = { '/usr/bin/../share/nvim-qt/runtime' },
       -- add any custom paths here that you want to includes in the rtp
     },
@@ -150,3 +151,7 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- 有些插件需要启动
+-- require('autoclose').setup()
+-- require('copilot').setup()
