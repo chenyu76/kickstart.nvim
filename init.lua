@@ -1,6 +1,7 @@
 require 'vim-settings'
 require 'input-method'
 require 'quick-run'
+require 'lazygit'
 
 -- 如果使用 neovide
 if vim.g.neovide then

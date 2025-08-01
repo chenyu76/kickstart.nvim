@@ -206,6 +206,10 @@ command! Open call OpenFileWithDialog()
 " nnoremap <expr> k v:count ? 'k' : 'gk'
 ]]
 
+vim.opt.tabstop = 4 -- 设置 Tab 显示为 4 个空格宽
+vim.opt.shiftwidth = 4 -- 设置自动缩进为 4 个空格
+-- vim.opt.expandtab = true -- 将 Tab 转换为空格（可选）
+
 -- vim.opt.relativenumber = false -- 关闭相对行号
 -- vim.opt.cursorcolumn = false -- 关闭光标高亮列
 

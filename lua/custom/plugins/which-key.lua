@@ -50,6 +50,7 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       { '<leader>r', '<cmd>lua Compile_current_file()<CR>', desc = '[R]un code by file', mode = 'n', icon = '' },
       { '<leader>tc', '<cmd>lua require("copilot.suggestion").toggle_auto_trigger()<CR>', desc = '[T]oggle [C]opilt', mode = 'n', icon = '' },
+      { '<leader>tg', '<cmd>lua Toggle_lazygit()<CR>', desc = '[T]oggle Lazygit', mode = 'n', icon = '' },
       { '<leader>w', ':HopWord<CR>', desc = 'Jump by [W]ord', mode = { 'n', 'v' }, icon = '󰈭' },
       { '<leader>c', ':HopChar1<CR>', desc = 'Jump by [C]har', mode = { 'n', 'v' }, icon = '󰀬' },
       { '<leader>n', '<cmd>Neotree reveal toggle dir=./<CR>', desc = '[N]eotree', mode = 'n', icon = '' },
