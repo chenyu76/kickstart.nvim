@@ -169,7 +169,3 @@ function TryBibTeX()
     end
   end
 end
-
--- 设置 Leader + R 快捷键
--- 在 keybindings 中
--- vim.api.nvim_set_keymap("n", "<leader>R", ":lua Compile_current_file()<CR>", { noremap = true, silent = true })

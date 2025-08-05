@@ -16,3 +16,9 @@ function Toggle_lazygit()
     vim.notify('Command [lazygit] not found!', vim.log.levels.ERROR, { title = 'toggleterm.nvim' })
   end
 end
+
+function ViewCorrespondingPDF()
+  local file = string.gsub(vim.fn.expand '%:p', '.tex$', '.pdf')
+  local cmd = 'okular "' .. file .. '"&'
+  vim.fn.system(cmd)
+end
