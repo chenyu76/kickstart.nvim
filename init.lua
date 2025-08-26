@@ -16,6 +16,8 @@ if vim.g.neovide then
   -- vim.g.neovide_cursor_vfx_particle_density = 1.0
   -- vim.g.neovide_floating_shadow = true
   -- vim.g.neovide_floating_z_height = 0
+  vim.g.experimental_layer_grouping = true
+  vim.g.neovide_cursor_animation_length = 0.3
 end
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -149,10 +151,3 @@ require('lazy').setup({
     },
   },
 })
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
-
--- 有些插件需要启动
--- require('autoclose').setup()
--- require('copilot').setup()

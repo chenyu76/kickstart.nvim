@@ -15,6 +15,15 @@ return {
   },
   opts = {
     filesystem = {
+      filtered_items = {
+        hide_by_pattern = {
+          '*.aux',
+          '*.log',
+          '*.out',
+          '*.toc',
+          '*.synctex.gz',
+        },
+      },
       window = {
         mappings = {
           ['\\'] = 'close_window',

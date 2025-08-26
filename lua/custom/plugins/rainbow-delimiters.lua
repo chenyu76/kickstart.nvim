@@ -9,6 +9,7 @@ return {
         vim = 'rainbow-delimiters.strategy.local',
       },
       query = {
+        -- [''] = 'rainbow-blocks',
         [''] = 'rainbow-delimiters',
         lua = 'rainbow-blocks',
         latex = 'rainbow-blocks',
@@ -17,6 +18,7 @@ return {
       priority = {
         [''] = 110,
         lua = 210,
+        latex = 211,
       },
       highlight = {
         'RainbowDelimiterRed',
