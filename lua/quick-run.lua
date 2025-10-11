@@ -105,7 +105,7 @@ function RunCommand(cmd_pattern)
   vim.cmd("TermExec cmd='" .. cmd .. "' dir='" .. file_info.dir .. "'")
 end
 
--- 新增：Shebang 检测函数
+-- Shebang 检测函数
 local function get_shebang_command()
   local file_path = vim.fn.expand '%:p'
   local file = io.open(file_path, 'r')
@@ -131,14 +131,16 @@ function Compile_current_file()
   vim.cmd 'w' -- 先保存文件
 
   local filetype = vim.bo.filetype
-  local cmd = ft_cmds[filetype] or 'SnipRun' -- 默认使用 SnipRun
+  local cmd = ft_cmds[filetype] or 'SnipRun'
 
+  -- 没有配置的话使用 SnipRun
   if cmd == 'SnipRun' then
     vim.cmd 'SnipRun'
   else
     if type(cmd) == 'function' then
       cmd() -- 如果是函数，调用它
     else
+      -- 优先使用 shebang 行
       local shebang_cmd = get_shebang_command()
       if shebang_cmd then
         RunCommand(shebang_cmd)
