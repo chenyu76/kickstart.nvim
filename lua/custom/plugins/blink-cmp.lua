@@ -60,6 +60,9 @@ return { -- Autocompletion
       --
       -- See :h blink-cmp-config-keymap for defining your own keymap
       preset = 'default',
+      -- 额外设置enter 接受补全
+      -- 会在cmd时冲突，如何解决
+      -- ['<CR>'] = { 'accept', 'fallback' },
       -- preset = 'super-tab',
       -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
       --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
