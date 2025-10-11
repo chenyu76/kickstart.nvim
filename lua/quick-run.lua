@@ -1,7 +1,22 @@
 -- different file types use different commands to run
 local ft_cmds = {
   python = 'cd "$dir" && python "$fileName"',
-  tex = 'cd "$dir" && xelatex -synctex=1 --shell-escape -interaction=scrollmode "$fileName" && exit',
+  tex = function()
+    -- 检测是否有 latexmkrc 文件
+    local function have_latexmkrc()
+      local current_file = vim.fn.expand '%:p'
+      local dir = vim.fn.fnamemodify(current_file, ':h')
+      local latexmkrc = dir .. '/.latexmkrc'
+      return vim.fn.filereadable(latexmkrc) == 1
+    end
+
+    if have_latexmkrc() then
+      RunCommand 'cd "$dir" && latexmk && exit'
+    else
+      TryBibTeX()
+      RunCommand 'cd "$dir" && xelatex -synctex=1 --shell-escape -interaction=scrollmode "$fileName" && exit'
+    end
+  end,
   typst = 'cd "$dir" && typst compile "$fileName"',
   sh = 'bash "$fullFileName"',
   c = 'gcc ./$fileName -o ./$fileNameWithoutExt.o && ./$fileNameWithoutExt.o',
@@ -124,7 +139,6 @@ function Compile_current_file()
     if type(cmd) == 'function' then
       cmd() -- 如果是函数，调用它
     else
-      -- 修改点：添加 Shebang 判断逻辑
       local shebang_cmd = get_shebang_command()
       if shebang_cmd then
         RunCommand(shebang_cmd)
