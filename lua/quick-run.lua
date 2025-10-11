@@ -1,6 +1,8 @@
+-- quickly run code snippets or files based on their file type.
+
 -- different file types use different commands to run
 local ft_cmds = {
-  python = 'cd "$dir" && python "$fileName"',
+  python = 'cd "$dir" && python "$fileName" $arg',
   tex = function()
     -- 检测是否有 latexmkrc 文件
     local function have_latexmkrc()
@@ -71,7 +73,7 @@ local ft_cmds = {
 }
 
 -- 通用命令执行函数（支持 TermExec 和路径格式化）
-function RunCommand(cmd_pattern)
+function RunCommand(cmd_pattern, arg)
   -- 获取文件路径信息
   local file_info = {
     dir = vim.fn.expand '%:p:h', -- 文件所在目录（含末尾斜杠）
@@ -79,6 +81,7 @@ function RunCommand(cmd_pattern)
     fullFileName = vim.fn.expand '%:p', -- 完整文件路径
     fileName = vim.fn.expand '%:t', -- 带扩展名的文件名
     fileNameWithoutExt = vim.fn.expand '%:t:r', -- 不带扩展名的文件名
+    arg = arg or '', -- 传递给脚本的参数
   }
 
   -- 路径转义处理函数（处理空格和特殊字符）
@@ -127,7 +130,9 @@ local function get_shebang_command()
   return shebang .. ' ' .. fullFileName
 end
 
-function Compile_current_file()
+-- 主函数，根据文件类型选择命令执行
+-- arg 参数可选，传递给脚本
+function Compile_current_file(arg)
   vim.cmd 'w' -- 先保存文件
 
   local filetype = vim.bo.filetype
@@ -143,12 +148,18 @@ function Compile_current_file()
       -- 优先使用 shebang 行
       local shebang_cmd = get_shebang_command()
       if shebang_cmd then
-        RunCommand(shebang_cmd)
+        RunCommand(shebang_cmd, arg)
       else
-        RunCommand(cmd)
+        RunCommand(cmd, arg)
       end
     end
   end
+end
+
+function Compile_current_file_with_arg()
+  vim.cmd 'w' -- 先保存文件
+  local arg = vim.fn.input 'Input arguments: '
+  Compile_current_file(arg)
 end
 
 -- 编译tex文件时，检查是否需要运行 BibTeX并执行
