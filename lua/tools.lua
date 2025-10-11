@@ -19,6 +19,18 @@ end
 
 function ViewCorrespondingPDF()
   local file = string.gsub(vim.fn.expand '%:p', '.tex$', '.pdf')
-  local cmd = 'okular "' .. file .. '"&'
-  vim.fn.system(cmd)
+  vim.notify('Open PDF: ' .. file, vim.log.levels.INFO, { title = 'PDF view' })
+  local cmd = { 'okular', file }
+
+  -- 使用 vim.loop.spawn 异步执行
+  local handle = vim.loop.spawn(cmd[1], {
+    args = vim.list_slice(cmd, 2),
+    detached = true, -- 让子进程独立于 Neovim 进程
+    stdio = { nil, nil, nil }, -- 忽略标准输入、输出和错误
+  }, function(exit_code)
+    -- 这个回调函数在命令结束后被调用，这里可以做一些清理工作
+    if exit_code ~= 0 then
+      vim.notify('Failed to open PDF, exit code: ' .. exit_code, vim.log.levels.ERROR)
+    end
+  end)
 end
