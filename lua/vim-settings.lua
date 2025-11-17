@@ -16,6 +16,15 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- 在可视化模式中反复按 > 或 < 来连续调整缩进，而不需要重新选择文本
+-- gv: Go Visual，在操作完成后，立即重新进入可视化模式并选中上一次的区域
+vim.keymap.set('v', '>', '>gv', { noremap = true, silent = true, desc = 'Visual Indent and Reselect' })
+vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true, desc = 'Visual Dedent and Reselect' })
+
+-- Show line length markers at 80 and 120 characters
+-- vim.opt.colorcolumn = '80,120'
+vim.opt.colorcolumn = '80,100'
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -149,6 +158,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- vim.api.nvim_set_keymap('n', '<A-k>', '<Cmd>resize +2<CR>', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<A-l>', '<Cmd>vertical resize +2<CR>', { noremap = true, silent = true })
 
+-- 启用自动换行
+vim.opt.wrap = true
+vim.opt.linebreak = true
+
 vim.cmd [[
 " 使用fish作为终端
 set shell=/usr/bin/fish
@@ -209,8 +222,8 @@ command! Open call OpenFileWithDialog()
 ]]
 
 vim.opt.tabstop = 4 -- 设置 Tab 显示为 4 个空格宽
-vim.opt.shiftwidth = 4 -- 设置自动缩进为 4 个空格
--- vim.opt.expandtab = true -- 将 Tab 转换为空格（可选）
+vim.opt.shiftwidth = 2 -- 设置自动缩进为 4 个空格
+vim.opt.expandtab = true -- 将 Tab 转换为空格（可选）
 
 -- vim.opt.relativenumber = false -- 关闭相对行号
 -- vim.opt.cursorcolumn = false -- 关闭光标高亮列

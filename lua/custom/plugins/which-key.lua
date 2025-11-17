@@ -57,6 +57,7 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>w', '<cmd>HopWord<CR>', desc = 'Jump by [W]ord', mode = { 'n', 'v' }, icon = '󰈭' },
       { '<leader>c', '<cmd>HopChar1<CR>', desc = 'Jump by [C]har', mode = { 'n', 'v' }, icon = '󰀬' },
       { '<leader>n', '<cmd>Neotree reveal toggle dir=./<CR>', desc = '[N]eotree', mode = 'n', icon = '' },
+      { '<C-n>', '<cmd>Neotree reveal toggle dir=./<CR>', desc = '[N]eotree', mode = 'n', icon = '' },
       { '<leader>e', '<cmd>ToggleTerm<CR>', desc = 'Terminal [e]mulator', mode = 'n', icon = '' },
       -- { '<C-n>', '<cmd>Neotree reveal toggle dir=./<CR>', desc = '[N]eotree', mode = { 'n', 'i' }, icon = '' },
       { '<C-\\>', '<cmd>ToggleTerm<CR>', desc = 'Terminal', mode = { 'n', 'i', 't' }, icon = '' },

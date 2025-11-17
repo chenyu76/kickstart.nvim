@@ -244,7 +244,9 @@ return {
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     require('mason-lspconfig').setup {
-      ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+      ensure_installed = {
+        'hls',
+      }, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
       automatic_installation = false,
       handlers = {
         function(server_name)
@@ -254,6 +256,25 @@ return {
           -- certain features of an LSP (for example, turning off formatting for ts_ls)
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
           require('lspconfig')[server_name].setup(server)
+        end,
+
+        -- Haskell Language Server (HLS) custom configuration
+        -- 使用Arch Linux系统中已安装的HLS，而不是Mason提供的版本
+        ['hls'] = function()
+          local hls_path = '/usr/bin/haskell-language-server'
+          local lspconfig = require 'lspconfig'
+
+          lspconfig.hls.setup {
+            -- 覆盖 Mason 提供的任何路径，强制使用指定的系统 HLS
+            cmd = { hls_path },
+            -- 其他配置选项
+            -- settings = {
+            -- },
+            capabilities = require('cmp_nvim_lsp').default_capabilities(),
+            on_attach = function(client, bufnr)
+              -- HLS 特定的 on_attach 逻辑
+            end,
+          }
         end,
       },
     }

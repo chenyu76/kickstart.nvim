@@ -2,6 +2,7 @@ require 'vim-settings'
 require 'input-method'
 require 'quick-run'
 require 'tools'
+require 'number-enter-mode'
 
 -- 如果使用 neovide
 if vim.g.neovide then

@@ -59,7 +59,8 @@ return { -- Autocompletion
       -- <c-k>: Toggle signature help
       --
       -- See :h blink-cmp-config-keymap for defining your own keymap
-      preset = 'default',
+      -- preset = 'default',
+      preset = 'super-tab',
       -- 额外设置enter 接受补全
       -- 会在cmd时冲突，如何解决
       -- ['<CR>'] = { 'accept', 'fallback' },

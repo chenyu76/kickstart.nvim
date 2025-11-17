@@ -8,6 +8,7 @@
 			{
 				"language": [
 					"plaintext",
+					"text",
 					"html",
 					"javascript",
 					"python"
