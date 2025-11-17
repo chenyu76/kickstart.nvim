@@ -1,3 +1,4 @@
+-- dimming the unused symbols
 return {
   'zbirenbaum/neodim',
   event = 'LspAttach',
