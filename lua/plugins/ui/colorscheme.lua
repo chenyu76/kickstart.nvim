@@ -18,7 +18,7 @@ local tokyonight = { -- You can easily change to a different colorscheme.
     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
     -- vim.cmd.colorscheme 'tokyonight-night'
     -- vim.cmd.colorscheme 'tokyonight-storm'
-    vim.cmd.colorscheme 'tokyonight-moon'
+    vim.cmd.colorscheme 'tokyonight-night'
   end,
 }
 
@@ -37,4 +37,4 @@ local catppuccin = {
 }
 
 -- Change the index to switch colorschemes.
-return ({ tokyonight, catppuccin })[1]
+return ({ tokyonight, catppuccin })[2]

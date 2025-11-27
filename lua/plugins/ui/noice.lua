@@ -1,5 +1,5 @@
 -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
-return {
+local noice = {
   'folke/noice.nvim',
   event = 'VeryLazy',
   opts = {
@@ -14,3 +14,5 @@ return {
     'rcarriga/nvim-notify',
   },
 }
+
+return noice
