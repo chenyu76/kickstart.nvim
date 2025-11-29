@@ -1,4 +1,4 @@
-return {
+local md =  {
   'iamcco/markdown-preview.nvim',
   cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
   ft = { 'markdown' },
@@ -6,3 +6,4 @@ return {
     vim.fn['mkdp#util#install']()
   end,
 }
+return {}
