@@ -1,46 +1,77 @@
--- 定义一个函数来获取输入法状态，并返回 1: 'pinyin' 或 0: 'keyboard-us'
-local function get_fcitx_state()
-	local state = vim.fn.system("/usr/bin/fcitx5-remote -n")
-	if state:match("pinyin") then
-		return 1
-	else
-		return 0
-	end
+local hostname = vim.loop.os_gethostname()
+
+-- 三个函数
+local get_im_status -- 获取当前输入法状态 (返回 1 为中文, 0 为英文)
+local recover_im_status -- 根据状态恢复输入法
+local close_im_status -- 强制关闭输入法 (切回英文)
+
+if hostname == 'yu-fydetabduo' then
+  -- ibus输入法: rime 和 xkb:us::eng
+
+  get_im_status = function()
+    -- system 返回的结果通常带换行符，需要 trim
+    local engine = vim.trim(vim.fn.system 'ibus engine')
+    if engine == 'rime' then
+      return 1
+    else
+      return 0
+    end
+  end
+
+  recover_im_status = function()
+    if vim.g.my_im_status == 1 then
+      vim.fn.system 'ibus engine rime'
+    end
+  end
+
+  close_im_status = function()
+    vim.fn.system 'ibus engine xkb:us::eng'
+  end
+else
+  -- fcitx5输入法: pinyin (通过 fcitx5-remote 控制)
+
+  get_im_status = function()
+    local state = vim.fn.system '/usr/bin/fcitx5-remote -n'
+    if state:match 'pinyin' then
+      return 1
+    else
+      return 0
+    end
+  end
+
+  recover_im_status = function()
+    if vim.g.my_im_status == 1 then
+      vim.fn.system '/usr/bin/fcitx5-remote -o'
+    end
+  end
+
+  close_im_status = function()
+    vim.fn.system '/usr/bin/fcitx5-remote -c'
+  end
 end
 
--- 定义一个函数来设置输入法状态
-local function set_fcitx_state(state)
-	-- 如果是拼音(1)，就打开输入法
-	if state == 1 then
-		-- vim.notify("拼音打开", vim.log.levels.INFO)
-		vim.fn.system("/usr/bin/fcitx5-remote -o")
-	end
-end
+-- 初始化变量
+vim.g.my_im_status = get_im_status()
 
--- 保存输入法状态到 vim.g 变量中
-vim.g.fcitx_status = get_fcitx_state()
-
--- 配置自动命令
-vim.api.nvim_create_autocmd({ "InsertLeave" }, {
-	pattern = { "*" },
-	callback = function()
-		vim.g.fcitx_status = get_fcitx_state()
-		vim.fn.system("/usr/bin/fcitx5-remote -c")
-	end,
-})
-vim.api.nvim_create_autocmd({ "InsertEnter" }, {
-	pattern = { "*" },
-	callback = function()
-		set_fcitx_state(vim.g.fcitx_status)
-	end,
+-- 离开插入模式：保存当前状态，并强制切回英文
+vim.api.nvim_create_autocmd('InsertLeave', {
+  pattern = '*',
+  callback = function()
+    vim.g.my_im_status = get_im_status()
+    close_im_status()
+  end,
 })
 
--- 在 BufCreate, BufEnter, BufLeave 时调用 fcitx5-remote -c 来关闭输入法
-vim.api.nvim_create_autocmd({ "BufCreate", "BufEnter", "BufLeave" }, {
-	pattern = { "*" },
-	callback = function()
-		vim.fn.system("/usr/bin/fcitx5-remote -c")
-	end,
+-- 进入插入模式：如果之前是中文，则恢复中文
+vim.api.nvim_create_autocmd('InsertEnter', {
+  pattern = '*',
+  callback = recover_im_status,
+})
+
+-- 切换 Buffer 或新建文件时：强制切回英文，避免干扰
+vim.api.nvim_create_autocmd({ 'BufCreate', 'BufEnter', 'BufLeave' }, {
+  pattern = '*',
+  callback = close_im_status,
 })
 
 -- 在插入模式下连续输入两个空格时，自动切换输入法
