@@ -20,7 +20,12 @@ end
 function ViewCorrespondingPDF()
   local file = string.gsub(vim.fn.expand '%:p', '.tex$', '.pdf')
   vim.notify('Open PDF: ' .. file, vim.log.levels.INFO, { title = 'PDF view' })
-  local cmd = { 'okular', file }
+  local cmd = {}
+  if vim.g.current_device == 1 then
+    cmd = { 'evince', file }
+  else
+    cmd = { 'okular', file }
+  end
 
   -- 使用 vim.loop.spawn 异步执行
   local handle = vim.loop.spawn(cmd[1], {

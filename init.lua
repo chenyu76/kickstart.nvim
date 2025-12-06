@@ -1,3 +1,14 @@
+-- 不同机器的代号方便使用不同配置
+-- 1 是 fydetab duo
+-- 0 是 其他 (X13)
+vim.g.current_device = (function()
+  if vim.loop.os_gethostname() == 'yu-fydetabduo' then
+    return 1
+  else
+    return 0
+  end
+end)()
+
 require 'vim-settings'
 require 'input-method'
 require 'quick-run'

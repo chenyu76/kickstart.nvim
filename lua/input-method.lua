@@ -1,13 +1,10 @@
-local hostname = vim.loop.os_gethostname()
-
 -- 三个函数
 local get_im_status -- 获取当前输入法状态 (返回 1 为中文, 0 为英文)
 local recover_im_status -- 根据状态恢复输入法
 local close_im_status -- 强制关闭输入法 (切回英文)
 
-if hostname == 'yu-fydetabduo' then
+if vim.g.current_device == 1 then
   -- ibus输入法: rime 和 xkb:us::eng
-
   get_im_status = function()
     -- system 返回的结果通常带换行符，需要 trim
     local engine = vim.trim(vim.fn.system 'ibus engine')
@@ -25,6 +22,7 @@ if hostname == 'yu-fydetabduo' then
   end
 
   close_im_status = function()
+    print(vim.fn.system 'ibus engine rime')
     vim.fn.system 'ibus engine xkb:us::eng'
   end
 else
