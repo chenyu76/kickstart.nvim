@@ -23,7 +23,7 @@ vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true, desc = 'Visual 
 
 -- Show line length markers at 80 and 120 characters
 -- vim.opt.colorcolumn = '80,120'
-vim.opt.colorcolumn = '80,100'
+-- vim.opt.colorcolumn = '80,100'
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
