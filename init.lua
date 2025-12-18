@@ -20,6 +20,7 @@ if vim.g.neovide then
   -- Put anything you want to happen only in Neovide here
   -- vim.o.guifont = "Triplicate A,京華老宋体,Maple Mono,JetBrainsMono Nerd Font,苹方:h12"
   vim.o.guifont = 'Maple Mono NF CN,JetBrainsMono Nerd Font,苹方:h11'
+  vim.opt.linespace = 2
   -- vim.g.neovide_scroll_animation_far_lines = 1
   vim.g.neovide_hide_mouse_when_typing = true
   -- vim.g.neovide_refresh_rate = 30
