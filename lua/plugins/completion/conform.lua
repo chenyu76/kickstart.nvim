@@ -34,6 +34,14 @@ return {
       shfmt = {
         prepend_args = { '-i', '2' }, -- 缩进 2 空格
       },
+      ['tex-fmt'] = {
+        -- 使用 vim.fn.stdpath("config") 获取 nvim 配置目录路径
+        -- 最终拼接成：--config /home/user/.config/nvim/tex-fmt.toml
+        prepend_args = { '--config', vim.fn.stdpath 'config' .. '/mason-plugin-configs/tex-fmt.toml' },
+
+        -- 在我的pr合并前先使用我自己编译的版本
+        command = '/home/yuchen/Documents/tex-fmt/target/release/tex-fmt',
+      },
     },
     formatters_by_ft = {
       lua = { 'stylua' },
