@@ -258,6 +258,10 @@ return {
           require('lspconfig')[server_name].setup(server)
         end,
 
+        -- 我安装了rustaceanvim，不需要lsp config 启动他自己的rust_analyzer
+        -- 这将阻止 lspconfig 自动启动它，从而把控制权完全交给 rustaceanvim
+        -- ['rust_analyzer'] = function() end,
+
         -- Haskell Language Server (HLS) custom configuration
         -- 使用Arch Linux系统中已安装的HLS，而不是Mason提供的版本
         ['hls'] = function()
