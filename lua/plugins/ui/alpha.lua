@@ -9,12 +9,13 @@ return {
       dashboard.button('.', '󰋚 .oldfiles', '<cmd>Telescope oldfiles<CR>'),
       dashboard.button('c', ' Create a new file', ':ene <BAR> startinsert <CR>'),
       -- dashboard.button('.', '󰋚 Oldfiles', ':Telescope oldfiles theme=dropdown layout_config={width=0.8}<CR>'),
-      dashboard.button('e', ' terminal Emulator', '<cmd>terminal<CR>'),
+      dashboard.button('e', '󱇧 Edit some file', ':e'),
       -- dashboard.button('p', '󱉟 Projects', ':Telescope projects theme=dropdown layout_config={width=0.8}<CR>'),
       dashboard.button('o', '󰩍 Open a file', ':Open<CR>'), -- 定义在vim-setting.lua中的Open函数
       dashboard.button('n', '󰙅 Neotree', '<cmd>Neotree filesystem<CR>'),
       -- dashboard.button('s', ' Settings', ':e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>'),
       -- dashboard.button('s', ' Settings', ':e $MYVIMRC | :cd %:p:h | pwd<CR>'),
+      dashboard.button('t', ' terminal Emulator', '<cmd>terminal<CR>'),
       dashboard.button('q', ' Quit', '<cmd>qa<CR>'),
     }
     for _, a in ipairs(dashboard.section.buttons.val) do

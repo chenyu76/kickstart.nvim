@@ -8,6 +8,6 @@ return {
   opts = {
     -- Your setup opts here
     -- Percentage or integer of columns
-    width = 20,
+    width = 18,
   },
 }
