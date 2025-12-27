@@ -42,6 +42,9 @@ return {
         -- 在我的pr合并前先使用我自己编译的版本
         command = '/home/yuchen/Documents/tex-fmt/target/release/tex-fmt',
       },
+      ['cbfmt'] = {
+        prepend_args = { '--config', vim.fn.stdpath 'config' .. '/mason-plugin-configs/cbfmt.toml' },
+      },
     },
     formatters_by_ft = {
       lua = { 'stylua' },
