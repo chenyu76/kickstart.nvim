@@ -37,4 +37,4 @@ local catppuccin = {
 }
 
 -- Change the index to switch colorschemes.
-return ({ tokyonight, catppuccin })[1]
+return ({ tokyonight, catppuccin })[2]
