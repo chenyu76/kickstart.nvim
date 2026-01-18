@@ -158,9 +158,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- vim.api.nvim_set_keymap('n', '<A-k>', '<Cmd>resize +2<CR>', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<A-l>', '<Cmd>vertical resize +2<CR>', { noremap = true, silent = true })
 
--- 启用自动换行
-vim.opt.wrap = true
-vim.opt.linebreak = true
+-- 不启用自动换行
+vim.opt.wrap = false
+-- vim.opt.wrap = true
+-- vim.opt.linebreak = true
 
 vim.cmd [[
 " 使用fish作为终端
