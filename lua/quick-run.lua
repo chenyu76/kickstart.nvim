@@ -21,53 +21,38 @@ local ft_cmds = {
     cmd = 'cd "$dir" && python "$fileName" $arg',
     reload = true,
   },
-  tex = function()
-    -- 检测是否有 .latexmkrc 文件
-    local function have_latexmkrc()
-      local current_file = vim.fn.expand '%:p'
-      local dir = vim.fn.fnamemodify(current_file, ':h')
-      local latexmkrc = dir .. '/.latexmkrc'
-      return vim.fn.filereadable(latexmkrc) == 1
-    end
-
-    if have_latexmkrc() then
-      RunCommand 'cd "$dir" && latexmk && exit'
-    else
-      TryBibTeX()
-      RunCommand 'cd "$dir" && xelatex -synctex=1 --shell-escape -interaction=scrollmode "$fileName" && exit'
-    end
-  end,
   typst = 'cd "$dir" && typst compile "$fileName"',
   sh = 'bash "$fullFileName"',
   c = 'gcc ./$fileName -o ./$fileNameWithoutExt.o && ./$fileNameWithoutExt.o $arg',
   cpp = 'g++ ./$fileName -o ./$fileNameWithoutExt.o && ./$fileNameWithoutExt.o $arg',
   java = 'javac $fullFileName',
   javascript = 'node $fullFileName',
+  tex = function()
+    SmartRun(
+      '.latexmkrc',
+      'latexmk && exit',
+      function()
+        TryBibTeX()
+        RunCommand 'cd "$dir" && xelatex -synctex=1 --shell-escape -interaction=nonstopmode "$fileName" && exit'
+      end,
+      { cd = true } -- 启用目录切换
+    )
+  end,
   rust = function()
-    -- 检测 Rust cargo 项目
-    local function is_cargo_project()
-      local current_file = vim.fn.expand '%:p'
-      local dir = vim.fn.fnamemodify(current_file, ':h')
-
-      -- 向上查找 Cargo.toml 直到根目录
-      while true do
-        local cargo_toml = dir .. '/Cargo.toml'
-        if vim.fn.filereadable(cargo_toml) == 1 then
-          return true
-        end
-        local parent = vim.fn.fnamemodify(dir, ':h')
-        if parent == dir then
-          break -- 到达根目录
-        end
-        dir = parent
-      end
-      return false
-    end
-    if is_cargo_project() then
-      RunCommand 'cargo run'
-    else
-      RunCommand 'rustc $fullFileName -o $fileNameWithoutExt && ./$fileNameWithoutExt'
-    end
+    SmartRun(
+      'Cargo.toml',
+      'cargo run',
+      'rustc $fullFileName -o $fileNameWithoutExt && ./$fileNameWithoutExt',
+      { cd = true } -- cd 到项目根目录运行 cargo
+    )
+  end,
+  haskell = function()
+    SmartRun(
+      '*.cabal',
+      'cabal run',
+      'runhaskell "$fullFileName"',
+      { glob = true, cd = true } -- glob 模式查找 *.cabal 文件
+    )
   end,
   html = 'xdg-open $fullFileName && exit',
   go = 'go run $fileName',
@@ -80,7 +65,6 @@ local ft_cmds = {
   groovy = 'groovy $fullFileName',
   kotlin = 'kotlinc $fullFileName -include-runtime -d $fileNameWithoutExt.jar && java -jar $fileNameWithoutExt.jar',
   dart = 'dart run $fullFileName',
-  haskell = 'runhaskell $fullFileName',
   elixir = 'elixir $fullFileName',
   clojure = 'clojure -M $fullFileName',
   scala = 'scala $fullFileName',
@@ -90,6 +74,60 @@ local ft_cmds = {
   v = 'v run $fullFileName',
   zig = 'zig run $fullFileName',
 }
+
+-- @param marker: 标志文件 (如 "Cargo.toml") 或通配符 (如 "*.cabal")
+-- @param cmd_project: 找到 marker 时执行的命令
+-- @param cmd_fallback: 没找到时执行的命令或函数
+-- @param opts: 配置表 { glob = boolean, cd = boolean }
+function SmartRun(marker, cmd_project, cmd_fallback, opts)
+  opts = opts or {}
+  local use_glob = opts.glob or false
+  local auto_cd = opts.cd or false
+
+  local current_file = vim.fn.expand '%:p'
+  local dir = vim.fn.fnamemodify(current_file, ':h')
+  local home = vim.fn.expand '$HOME'
+  local found = false
+
+  while true do
+    local match = false
+    if use_glob then
+      if vim.fn.glob(dir .. '/' .. marker) ~= '' then
+        match = true
+      end
+    else
+      if vim.fn.filereadable(dir .. '/' .. marker) == 1 then
+        match = true
+      end
+    end
+
+    if match then
+      found = true
+      break -- 此时 dir 变量即为找到 marker 的目录
+    end
+
+    local parent = vim.fn.fnamemodify(dir, ':h')
+    if parent == dir or parent == home then
+      break
+    end
+    dir = parent
+  end
+
+  if found then
+    local final_cmd = cmd_project
+    -- 如果开启了 auto_cd，则组合 cd 命令
+    if auto_cd then
+      final_cmd = 'cd "' .. dir .. '" && ' .. cmd_project
+    end
+    RunCommand(final_cmd)
+  else
+    if type(cmd_fallback) == 'function' then
+      cmd_fallback()
+    else
+      RunCommand(cmd_fallback)
+    end
+  end
+end
 
 -- 通用命令执行函数（支持 TermExec 和路径格式化）
 function RunCommand(cmd_pattern, arg)
