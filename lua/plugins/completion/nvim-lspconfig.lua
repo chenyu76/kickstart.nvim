@@ -264,6 +264,7 @@ return {
 
         -- Haskell Language Server (HLS) custom configuration
         -- 使用Arch Linux系统中已安装的HLS，而不是Mason提供的版本
+        --[[
         ['hls'] = function()
           local hls_path = '/usr/bin/haskell-language-server'
           local lspconfig = require 'lspconfig'
@@ -280,6 +281,7 @@ return {
             end,
           }
         end,
+        ]]
       },
     }
   end,
